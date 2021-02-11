@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Files</h2>
+    <p>
+        <a href="{%url 'home' %}" class='btn btn-primary btn-sm'>Upload</a>
+    </p>
+
+    <table class='table mb-0'>
+        <thead>
+            <tr>
+                <th>title</th>
+                <th>editor</th>
+                <th>upload date</th>
+                <th>Download</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for file in files%}
+                <tr>
+                    <td>{{file.title}}</td>
+                    <td>{{file.editor}}</td>
+                    <td>{{file.upload_date | date:"d F Y" }}</td>
+                    <td>
+                        <a href="{{file.file.url}}" class='btn btn-primary btn-sm' target="blank">Download File</a>
+                    </td>
+                    <td>
+                        <form method="POST" action="{% url 'delete' file.pk%}">
+                            {% csrf_token%}
+                            <button class='btn btn-danger btn-sm'>Delete</button>
+                        </form>
+
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
